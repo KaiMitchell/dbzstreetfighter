@@ -34,7 +34,7 @@ namespace recap
             FrameSpeed = 0.1f;
         }
 
-        public bool IsComplete => CurrentFrame >= FrameCount - 1;
+        public bool IsComplete => CurrentFrame >= FrameCount - 1; //Recognise the animation has completed it's cycle to pass to game class.
 
         public void Reset()
         {
