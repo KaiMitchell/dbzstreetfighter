@@ -25,7 +25,7 @@ namespace recap
         {
             Texture = texture;
             FrameCount = frameCount;
-            StartY = startY;
+            StartY = startY; //Row location of specific animation
             FrameWidth = frameWidth;
             FrameHeight = frameHeight;
 
@@ -70,7 +70,7 @@ namespace recap
 
             batch.Draw(
                 Texture,
-                new Rectangle(200, 200, FrameWidth, FrameHeight),
+                new Rectangle((int)position.X, (int)position.Y, FrameWidth, FrameHeight),
                 sourceRect,
                 Color.White,
                 0f,

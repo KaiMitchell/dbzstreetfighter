@@ -53,10 +53,10 @@ namespace recap
             }
         }
 
-        public void Draw(SpriteBatch batch)
+        public void Draw(SpriteBatch batch, Vector2 position)
         {
             SpriteEffects flip = IsReversed ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            animation.Draw(batch, Position, flip);
+            animation.Draw(batch, position, flip);
         }
     }
 }

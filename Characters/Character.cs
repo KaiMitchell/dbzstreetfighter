@@ -8,6 +8,7 @@ namespace recap
 {
     public class Character
     {
+        Vector2 Position;
         private Sprite Idle;
         private Sprite Walking;
         private Sprite Jumping;
@@ -20,8 +21,6 @@ namespace recap
             var IdleAnimation = new Animation(texture, 10, 465, 123, 205);
             var WalkingAnimation = new Animation(texture, 13, 870, 130, 210);
             var JumpingAnimation = new Animation(texture, 8, 1645, 158, 214);
-
-            Vector2 Position = new Vector2(300, 400);
 
             Idle = new Sprite(IdleAnimation, Position);
             Walking = new Sprite(WalkingAnimation, Position);
@@ -57,6 +56,13 @@ namespace recap
             {
                 IsWalking = false;
             }
+
+            if(Input.IsKeyDown(Keys.Left))
+                Position.X -= 5;
+            if(Input.IsKeyDown(Keys.Right))
+                Position.X += 5;
+            if(Input.IsKeyDown(Keys.Down))
+                Position.Y += 5;
         }
 
         public void Update(GameTime gameTime, InputHandler Input)
@@ -88,11 +94,11 @@ namespace recap
         public void Draw(SpriteBatch batch)
         {
             if(IsJumping)
-                Jumping.Draw(batch);
+                Jumping.Draw(batch, Position);
             else if(IsWalking)
-                Walking.Draw(batch);
+                Walking.Draw(batch, Position);
             else
-                Idle.Draw(batch);
+                Idle.Draw(batch, Position);
         }
     }
 }
