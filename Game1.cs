@@ -74,13 +74,24 @@ public class Game1 : Game
             IsJumping = true;
             Jumping.StartAnimation();
         };
-        IsWalking = Input.IsKeyDown(Keys.Left) || Input.IsKeyDown(Keys.Right);
+        if(Input.IsKeyDown(Keys.Left) || Input.IsKeyDown(Keys.Right) && !IsJumping)
+        {
+            if(!IsWalking)
+            {
+                IsWalking = true;
+                Walking.StartAnimation();
+            }
+        }
+        else
+        {
+            IsWalking = false;
+        };
 
         if(IsJumping)
         {
             Console.Write("Jumping!");
             Jumping.SetReversed(IsReversed);
-            Jumping.Update(gameTime, Input);
+            Jumping.Update(gameTime, Input, IsJumping);
             if(!Jumping.IsAnimating)
             {
                 IsJumping = false;
@@ -90,12 +101,12 @@ public class Game1 : Game
         {
             Console.Write("Walking!");
             Walking.SetReversed(IsReversed);
-            Walking.Update(gameTime, Input);
+            Walking.Update(gameTime, Input, IsJumping);
         }
         else 
         {
             Idle.SetReversed(IsReversed);
-            Idle.Update(gameTime, Input);
+            Idle.Update(gameTime, Input, IsJumping);
         }
         
         base.Update(gameTime);

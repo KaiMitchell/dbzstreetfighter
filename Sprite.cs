@@ -38,15 +38,18 @@ namespace recap
 
         public void SetReversed(bool isReversed) => IsReversed = isReversed;
 
-        public void Update(GameTime gameTime, InputHandler Input)
+        public void Update(GameTime gameTime, InputHandler input, bool IsJumping = false)
         {
-            if(IsAnimating)
+            if(IsAnimating && IsJumping)
             {
                 animation.Update(gameTime); 
-                if(animation.IsComplete)
+                if(animation.IsComplete && IsJumping)
                 {
                     isAnimating = false;
                 }
+            }
+            else {
+                animation.Update(gameTime);
             }
         }
 
