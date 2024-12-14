@@ -18,7 +18,7 @@ namespace recap
         public bool IsLooping { get; set; }
         public Texture2D Texture { get; private set; }
 
-        private int StartY;
+        private readonly int StartY;
         private float Timer;
 
         public Animation(Texture2D texture, int frameCount, int startY, int frameWidth, int frameHeight)
