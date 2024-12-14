@@ -13,14 +13,12 @@ namespace recap
     public class Sprite
     {
         private Animation animation; 
-        private Vector2 Position;      
         public bool IsReversed { get; private set; }
         public bool isAnimating;
 
-        public Sprite(Animation animation, Vector2 position)
+        public Sprite(Animation animation)
         {
             this.animation = animation;
-            Position = position;
 
             isAnimating = false;
         }
