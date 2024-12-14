@@ -16,8 +16,12 @@ namespace recap
         private bool IsReversed;
         public bool IsFalling;
 
-        public int Velocity;
+        public Vector2 Velocity;
         Vector2 Position;
+
+        private const float GRAVITY = 0.5f;
+        private const float JUMP_FORCE = -10f;
+        private const float MAX_FALL_SPEED = 10f;
         public int GROUND = 200;
 
         public Character(Texture2D texture)
@@ -35,73 +39,53 @@ namespace recap
 
         public void HandleInput(InputHandler Input)
         {
-            if(Input.IsKeyPressed(Keys.Left))
+            if(Input.IsKeyDown(Keys.Left))
             {
+                Velocity.X += -5f;
                 IsReversed = false;
+                IsWalking = true;
             }
-            else if(Input.IsKeyPressed(Keys.Right))
+            else if(Input.IsKeyDown(Keys.Right))
             {
+                Velocity.X += 5f;
                 IsReversed = true;
+                IsWalking = true;
             }
+            else 
+                IsWalking = false;
 
-            if(Input.IsKeyPressed(Keys.Up) && !IsJumping)
+            if(Input.IsKeyPressed(Keys.Up) && Position.Y >= GROUND)
             {
                 IsJumping = true;
+                Velocity.Y = JUMP_FORCE;
                 Jumping.StartAnimation();
-            }
-            
-            if(Input.IsKeyDown(Keys.Left) || Input.IsKeyDown(Keys.Right))
-            {
-                if(!IsWalking)
-                {
-                    IsWalking = true;   
-                    Walking.StartAnimation();
-                }
-            }
-            else
-            {
-                IsWalking = false;
-            }
-
-            if(Position.Y <= GROUND - 10)
-            {
-                IsFalling = true;
-            }
-            if(Position.Y == GROUND)
-            {
-                IsFalling = false;
-                IsJumping = false;
-            }
-
-            if(IsFalling)
-            {
-                Position.Y += 1;
-            };
-
-            if(Input.IsKeyDown(Keys.Left))
-                Position.X -= 5;
-            if(Input.IsKeyDown(Keys.Right))
-                Position.X += 5;
-            if(Input.IsKeyDown(Keys.Down))
-                Position.Y += 5;
-            if(Input.IsKeyPressed(Keys.Up))
-            {
-                Position.Y -= 30;
             }
         }
 
         public void Update(GameTime gameTime, InputHandler Input)
         {
             HandleInput(Input);
+            Position.X = Velocity.X;
+            if(Position.Y < GROUND || IsJumping)
+            {
+                Velocity.Y += GRAVITY;
+                if(Velocity.Y > MAX_FALL_SPEED)
+                    Velocity.Y = MAX_FALL_SPEED;
+
+                Position.Y += Velocity.Y;
+            }
+
+            if(Position.Y >= GROUND)
+            {
+                Position.Y = GROUND;
+                Velocity.Y = 0;
+                IsJumping = false;
+            }
 
             if(IsJumping)
             {
                 Jumping.SetReversed(IsReversed);
                 Jumping.Update(gameTime, Input, IsJumping);
-                if(!Jumping.IsAnimating)
-                {
-                    IsJumping = false;
-                }
             }
             else if(IsWalking)
             {
@@ -112,7 +96,7 @@ namespace recap
             else 
             {
                 Idle.SetReversed(IsReversed);
-                Idle.Update(gameTime, Input, IsJumping);
+                Idle.Update(gameTime, Input, false);
             }
         }
 
