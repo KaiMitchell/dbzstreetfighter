@@ -34,6 +34,14 @@ namespace recap
             FrameSpeed = 0.1f;
         }
 
+        public bool IsComplete => CurrentFrame >= FrameCount - 1;
+
+        public void Reset()
+        {
+            CurrentFrame = 0;
+            Timer = 0f;
+        }
+
         public void Update(GameTime gameTime)
         {
             Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;

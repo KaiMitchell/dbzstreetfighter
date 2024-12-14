@@ -15,18 +15,39 @@ namespace recap
         private Animation animation; 
         private Vector2 Position;      
         public bool IsReversed { get; private set; }
+        public bool isAnimating;
 
         public Sprite(Animation animation, Vector2 position)
         {
             this.animation = animation;
             Position = position;
+
+            isAnimating = false;
+        }
+
+        public bool IsAnimating => isAnimating;
+
+        public void StartAnimation()
+        {
+            if(!isAnimating)
+            {
+                isAnimating = true;
+                animation.Reset();
+            }
         }
 
         public void SetReversed(bool isReversed) => IsReversed = isReversed;
 
         public void Update(GameTime gameTime, InputHandler Input)
         {
-            animation.Update(gameTime); 
+            if(IsAnimating)
+            {
+                animation.Update(gameTime); 
+                if(animation.IsComplete)
+                {
+                    isAnimating = false;
+                }
+            }
         }
 
         public void Draw(SpriteBatch batch)

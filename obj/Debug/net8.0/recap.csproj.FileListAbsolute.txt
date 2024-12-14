@@ -24,3 +24,4 @@
 /home/student/recap/obj/Debug/net8.0/recap.genruntimeconfig.cache
 /home/student/recap/obj/Debug/net8.0/ref/recap.dll
 /home/student/recap/bin/Debug/net8.0/Content/modified.xnb
+/home/student/recap/obj/Debug/net8.0/recap.sourcelink.json
